@@ -28,7 +28,7 @@ jobs:
           redis-server --daemonize yes --requirepass test_env --port 6380
       # 테스트 githubAction 실행
       - name: Run test
-        run: npm run test
+        run: npm run test:ci
 
       # 빌드 테스트
       - name: test build
