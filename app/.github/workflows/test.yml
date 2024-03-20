@@ -3,13 +3,13 @@ name: test
 # pull_request가 실행될때 해당 깃헙 액션이 발동됨
 on: pull_request
 
-job: 
-  test: 
-  # 어떠한 환경에서 돌아가는지
+jobs:
+  test:
+    # 어떠한 환경에서 돌아가는지
     runs-on: ubuntu-22.04
-    steps: 
+    steps:
       - name: Checkout repository
-      # githubAction에서 만들어둔거 사용
+        # githubAction에서 만들어둔거 사용
         uses: actions/checkout@v3
       # 새로 모든걸 설치하는것이 아니라 github액션이 제공하는 캐시를 사용해서 간소화
       - name: Node.js setup
@@ -22,10 +22,10 @@ job:
         run: npm ci
       # 레디스 설치
       - name: install and run redis-server
-        run: |  #여러줄 쓰고 싶을때
+        run: | #여러줄 쓰고 싶을때
           sudo apt-get update
           sudo apt-get install -y redis-server
-          redis-server --deamonize yes --requirepass test_env --port 6380
+          redis-server --daemonize yes --requirepass test_env --port 6380
       # 테스트 githubAction 실행
       - name: Run test
         run: npm run test
