@@ -1,46 +1,46 @@
 name: deploy
 
-on: 
-    push:
-        branches: 
-            - main
+on:
+  push:
+    branches:
+      - main
 jobs:
-    deploy:
-        runs-on: ubuntu-latest
-        steps:
-            - name: Set up SSH
-                # 폴더가 없으면 만들고, 있으면 사용
-                # echo(출력) +   >(리다렉션) : 해당 값을 읽고 저장해라 #{{}} => 우분투 스크립트 문법
-                # 읽기 권한 주기 
-              run: |
-                mkdir -p ~/.ssh/
-                echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-                chmod 600 ~/.ssh/id_rsa
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name:
+          Set up SSH
+          # 폴더가 없으면 만들고, 있으면 사용
+          # echo(출력) +   >(리다렉션) : 해당 값을 읽고 저장해라 #{{}} => 우분투 스크립트 문법
+          # 읽기 권한 주기
+        run: |
+          mkdir -p ~/.ssh/
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
 
-            - name: Set up Known hosts
-                # >> : 파일이 있으면 거기에 추가해줘라 
-              run: |
-                    echo "${{ secrets.SSH_KNOWN_HOSTS }}" >> ~/.ssh/known_hosts
-                    chmod 644 ~/.ssh/known_hosts
-            
-            - name: SSH and deploy
-                # ssh -i 경로를 지정안하면 id_rsa ~~ private key를 기본값으로 함
-                # ssh "ssh 접속후 할일들"
-                # || exit 1 : 오류 발생하면 exit
-                # sudo pkill node -> express를 sudo로 실행해서 sudo로 pkill 해야함
-                # npx : npm으로 설치안하고 사용가능하게 
-                # & 실행후 백그라운드로 넘기고 다음 명령 실행
-                # wait-on은 특정 파일, 포트, 소켓, HTTP(S) 자원이 사용 가능해질 때까지 대기하는 유틸리티
-              run: |
-                ssh ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_PUBLIC_IP }} "
-                    cd express
-                    git pull || exit 1
-                    npm install || exit 1
-                    npm run build || exit 1
-                    sudo pkill node || exit 1
-                    sudo npm run start & npx wait-on http://localhost
-                    exit
-                "
+      - name:
+          Set up Known hosts
+          # >> : 파일이 있으면 거기에 추가해줘라
+        run: |
+          echo "${{ secrets.SSH_KNOWN_HOSTS }}" >> ~/.ssh/known_hosts
+          chmod 644 ~/.ssh/known_hosts
 
-
-            
+      - name:
+          SSH and deploy
+          # ssh -i 경로를 지정안하면 id_rsa ~~ private key를 기본값으로 함
+          # ssh "ssh 접속후 할일들"
+          # || exit 1 : 오류 발생하면 exit
+          # sudo pkill node -> express를 sudo로 실행해서 sudo로 pkill 해야함
+          # npx : npm으로 설치안하고 사용가능하게
+          # & 실행후 백그라운드로 넘기고 다음 명령 실행
+          # wait-on은 특정 파일, 포트, 소켓, HTTP(S) 자원이 사용 가능해질 때까지 대기하는 유틸리티
+        run: |
+          ssh ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_PUBLIC_IP }} "
+              cd express
+              git pull || exit 1
+              npm install || exit 1
+              npm run build || exit 1
+              sudo pkill node || exit 1
+              sudo npm run start & npx wait-on http://localhost
+              exit
+          "
