@@ -20,7 +20,7 @@ beforeEach(async () => {
 afterAll(async () => {
   await client.flushDb();
   await client.quit();
-});
+}, 10000);
 
 describe("POST /messages", () => {
   it("responds with a success message", async () => {

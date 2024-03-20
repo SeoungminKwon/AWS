@@ -40,6 +40,9 @@ jobs:
           # npx : npm으로 설치안하고 사용가능하게
           # & 실행후 백그라운드로 넘기고 다음 명령 실행
           # wait-on은 특정 파일, 포트, 소켓, HTTP(S) 자원이 사용 가능해질 때까지 대기하는 유틸리티...
+
+   
+
         run: |
           ssh ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_PUBLIC_IP }} "
               cd AWS
