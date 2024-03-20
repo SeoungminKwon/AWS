@@ -10,6 +10,7 @@ if (!REDIS_URL) throw new Error("REDIS_URL is required");
 
 const startServer = async () => {
   console.log("trying to start server");
+  console.log("trying to start server2");
   const client = redis.createClient({ url: REDIS_URL });
   await client.connect();
 
