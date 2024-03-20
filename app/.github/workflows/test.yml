@@ -3,7 +3,7 @@ name: test
 # pull_request가 실행될때 해당 깃헙 액션이 발동됨
 on: pull_request
 
-job:
+jobs:
   test:
     # 어떠한 환경에서 돌아가는지
     runs-on: ubuntu-22.04
@@ -25,7 +25,7 @@ job:
         run: | #여러줄 쓰고 싶을때
           sudo apt-get update
           sudo apt-get install -y redis-server
-          redis-server --deamonize yes --requirepass test_env --port 6380
+          redis-server --daemonize yes --requirepass test_env --port 6380
       # 테스트 githubAction 실행
       - name: Run test
         run: npm run test
