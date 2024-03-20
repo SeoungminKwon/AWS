@@ -12,6 +12,7 @@ const startServer = async () => {
   console.log("trying to start server");
   console.log("trying to start server2");
   console.log("trying to start server3");
+  console.log("trying to start server4");
   const client = redis.createClient({ url: REDIS_URL });
   await client.connect();
 
